@@ -77,6 +77,14 @@ public class MidiPlayer {
 		}
 		playWithScale(no);
 	}
+	
+	public void playIntWithScale(int n) {
+		int start = 20;
+		int end = 35; // Minus
+		
+		int no = start + (n % (scale.getLength() - end));
+		playWithScale(no);
+	}
 
 	public void playWithScale(int n) {
 		playSound(scale.getArray()[n]);
