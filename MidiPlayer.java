@@ -1,3 +1,5 @@
+package GameOfLife;
+
 
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Synthesizer;

@@ -1,3 +1,5 @@
+package GameOfLife;
+
 public class MidiScale {
 
 	private boolean[] schema;

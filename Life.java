@@ -1,4 +1,5 @@
 package GameOfLife;
+
 import java.io.*;
 import java.awt.Color;
 import java.awt.event.*;
@@ -11,8 +12,8 @@ public class Life {
 
 //---------------------------CLASS VARIABLES--------------------------------------//
 	
-	private static final int DIM1 = 50;
-	private static final int DIM2 = 50;
+	private static final int DIM1 = 100;
+	private static final int DIM2 = 100;
 	
 	private static final int FRAME_WIDTH = 700;
 	private static final int FRAME_HEIGHT = 530;
@@ -44,14 +45,18 @@ public class Life {
 	private static int TIME_SLIDER_Y = 150;
 	
 	private static OurPanel[][] pane;
-	private static final int PANE_WIDTH = 10;
-	private static final int PANE_HEIGHT = 10;
+	private static final int PANE_WIDTH = 5;
+	private static final int PANE_HEIGHT = 5;
 
 	private static BufferedReader reader;
 	
 	private static boolean isRunning = true;
 	
 	private static int timeBetweenSteps = 500;
+	
+	
+	// sound stuff
+	private static MidiPlayer midiPlayer;
 	
 	
 //--------------------------------INITIALISATION----------------------------------//	
@@ -133,6 +138,10 @@ public class Life {
 	    
 		// Initialisation of the input reader
 		reader = new BufferedReader(new InputStreamReader(System.in));
+		
+		// Initialisation of the midi player
+		midiPlayer = new MidiPlayer(0,80,200);
+		midiPlayer.scale = new MidiScale("F","dur");
 	
 	}
 	
@@ -156,8 +165,8 @@ public class Life {
 //-----------------------------------DISPLAY--------------------------------------//
 	
 	public static void display(boolean console){
-		int width = board.length;
-		int height = board[0].length;
+		int width = DIM1;
+		int height = DIM2;
 		
 		
 		if (console){
@@ -187,11 +196,12 @@ public class Life {
 	
 //-------------------------------UPDATE-------------------------------------------//
 	
-	public static boolean[][] update(boolean[][] board){
-		int width = board.length;
-		int height = board[0].length;
+	public static void update(){
+		int width = DIM1;
+		int height = DIM2;
+		int nAliveCells = 0;
 		
-		boolean[][] rBoard = createEmptyBoard(width, height);
+		boolean[][] newBoard = createEmptyBoard(width, height);
 	
 		
 		int c;
@@ -212,21 +222,28 @@ public class Life {
 				//applying rules
 				
 				if (board[i][j]){
-					if (c<2 || c>3) rBoard[i][j] = false;
-					else rBoard[i][j] = true;
+					nAliveCells++;
+					if (c<2 || c>3) newBoard[i][j] = false;
+					else newBoard[i][j] = true;
 				}else{
-					if (c==3) rBoard[i][j] = true;
-					else rBoard[i][j] = false;
-				}
-				
+					if (c==3) newBoard[i][j] = true;
+					else newBoard[i][j] = false;
+				}			
 			}
-		}		
-		return rBoard;
+			
+			
+		}
+		board = newBoard;
+		
+		// Midi player stuff
+		int nPitch = nAliveCells+150;
+		if (nPitch>DIM1*DIM2) nPitch = DIM1*DIM2;
+		midiPlayer.playNormalizedWithScale(nPitch, DIM1*DIM2, false);
 	}
 	
 //-----------------------------INPUT HANDLING-------------------------------------//
 	
-	public static void handleInput(BufferedReader reader){
+	public static void handleInput(){
 		/*try{
 			String line = reader.readLine();
 		} catch(Exception emptyException){};
@@ -249,8 +266,8 @@ public class Life {
 			if (!stopped) {
 				display(false);
 				mainFrame.repaint();
-				board = update(board);
-				handleInput(reader);
+				update();
+				handleInput();
 			}
 		}
 	}
