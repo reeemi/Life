@@ -39,7 +39,7 @@ public class Life {
 	private static int RESET_BUTTON_Y = 0;
 	
 	private static JSlider timeSlider = new JSlider(JSlider.HORIZONTAL, 0,1000,500);
-	private static int TIME_SLIDER_WIDTH = 100;
+	private static int TIME_SLIDER_WIDTH = 200;
 	private static int TIME_SLIDER_HEIGHT = 100;
 	private static int TIME_SLIDER_X = 500;
 	private static int TIME_SLIDER_Y = 150;
@@ -112,6 +112,7 @@ public class Life {
 	    	    JSlider source = (JSlider)e.getSource();
 	    	    if (!source.getValueIsAdjusting()) {
 	    	        timeBetweenSteps = (int)source.getValue();
+	    	        midiPlayer.duration = timeBetweenSteps;
 	    	    }
 	    	}
 	    });
@@ -143,7 +144,7 @@ public class Life {
 		reader = new BufferedReader(new InputStreamReader(System.in));
 		
 		// Initialisation of the midi player
-		midiPlayer = new MidiPlayer(0,80,200);
+		midiPlayer = new MidiPlayer(7,80,timeBetweenSteps);
 		midiPlayer.scale = new MidiScale("F","dur");
 	
 	}
