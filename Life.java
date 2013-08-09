@@ -246,9 +246,10 @@ public class Life {
 		
 		// Midi player stuff
 		int nPitch = nAliveCells; // total number of alive cells
-		//int nPitch = Math.abs(nAliveCells - nAliveCellsLastRound); // use difference
+		int mPitch = Math.abs(nAliveCells - nAliveCellsLastRound); // use difference
 		if (nPitch>DIM1*DIM2) nPitch = DIM1*DIM2;
 		midiPlayer.playIntWithScale(nPitch);
+		//midiPlayer.playMultipleNotesInInterval(new int[] {nPitch,mPitch});
 		// colour changing
 		
 		int r1 = (int)(Math.random()*20);

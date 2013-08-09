@@ -90,9 +90,9 @@ public class MidiPlayer {
 		playSound(scale.getArray()[n]);
 	}
 	
-	public void playMultipleNotesInInterval(int[] notes, int intervalDuration) {
+	public void playMultipleNotesInInterval(int[] notes) {
 		int saveDuration = duration;
-		duration = intervalDuration / notes.length;
+		duration = duration / notes.length;
 		for(int note : notes) {
 			System.out.println(note);
 			playIntWithScale(note);
@@ -129,18 +129,18 @@ public class MidiPlayer {
 
 				a.scale.setScale("A", "moll");
 				System.out.println("A moll");
-				a.playMultipleNotesInInterval(ran,3000);
+				a.playMultipleNotesInInterval(ran);
 
 				a.scale.setScale("F", "dur");
 				System.out.println("F dur");
-				a.playMultipleNotesInInterval(ran, 3000);
+				a.playMultipleNotesInInterval(ran);
 
 				a.scale.setScale("C", "dur");
 				System.out.println("C dur");
-				a.playMultipleNotesInInterval(ran, 3000);
+				a.playMultipleNotesInInterval(ran);
 				a.scale.setScale("G", "dur");
 				System.out.println("G dur");
-				a.playMultipleNotesInInterval(ran, 3000);
+				a.playMultipleNotesInInterval(ran);
 			a.close();
 		} catch (Exception e) {
 			e.printStackTrace();
