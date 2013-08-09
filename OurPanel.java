@@ -8,9 +8,9 @@ import javax.swing.JPanel;
 public class OurPanel extends JPanel {
 	boolean alive;
 	
-	Color aliveColour = Color.green;
+	Color aliveColour = Color.WHITE;
 	
-	Color deadColour = Color.black;
+	Color deadColour = Color.BLACK;
 	
 	public Color getAliveColour() {
 		return aliveColour;

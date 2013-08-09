@@ -54,6 +54,9 @@ public class Life {
 	
 	private static int timeBetweenSteps = 500;
 	
+	private static Color aliveColour = Color.WHITE;
+	private static Color deadColour = Color.BLACK;
+	
 	
 	// sound stuff
 	private static MidiPlayer midiPlayer;
@@ -185,6 +188,8 @@ public class Life {
 			for(int j = 0; j<height;j++){
 				for(int i = 0; i<width;i++){
 					pane[j][i].setAlive(board[i][j]);
+					if (pane[j][i].isAlive()) pane[j][i].setAliveColour(aliveColour);
+					else pane[j][i].setDeadColour(deadColour);
 				}
 				
 			}
@@ -239,6 +244,26 @@ public class Life {
 		int nPitch = nAliveCells+150;
 		if (nPitch>DIM1*DIM2) nPitch = DIM1*DIM2;
 		midiPlayer.playNormalizedWithScale(nPitch, DIM1*DIM2, false);
+		
+		// colour changing
+		
+		int r1 = (int)(Math.random()*20);
+		int r2 = (int)(Math.random()*20);
+		int r3 = (int)(Math.random()*20);
+		
+		int newAliveRed = ((aliveColour.getRed()+r1) % 156) + 100;
+		int newAliveGreen = ((aliveColour.getGreen()+r2) % 156) + 100;
+		int newAliveBlue = ((aliveColour.getBlue()+r3) % 156) + 100;
+
+		
+		aliveColour = new Color(newAliveRed, newAliveGreen, newAliveBlue);
+		
+
+		/* too much going on
+		int newDeadRed = (deadColour.getRed()+r3) % 256;
+		int newDeadGreen = (deadColour.getGreen()+r1) % 256;
+		int newDeadBlue = (deadColour.getBlue()+r2) % 256;
+		deadColour = new Color(newDeadRed, newDeadGreen, newDeadBlue);	*/
 	}
 	
 //-----------------------------INPUT HANDLING-------------------------------------//
