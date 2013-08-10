@@ -1,9 +1,16 @@
 package GameOfLife;
 
-import java.io.*;
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -24,6 +31,8 @@ public class Life {
 	private static boolean[][] board;
 	
 	private static JFrame mainFrame = new JFrame("Game of Life");
+	
+	private static final BorderLayout mainLayout = null;
 	
 	private static JButton startButton = new JButton();
 	private static int START_BUTTON_WIDTH = 100;
@@ -48,6 +57,10 @@ public class Life {
 	private static final int PANE_WIDTH = 5;
 	private static final int PANE_HEIGHT = 5;
 
+	private static JPanel mainPanel;
+	private static final int MAIN_PANEL_WIDTH = 500;
+	private static final int MAIN_PANEL_HEIGHT = 500;
+	
 	private static BufferedReader reader;
 	
 	private static boolean isRunning = true;
@@ -61,6 +74,8 @@ public class Life {
 	// sound stuff
 	private static MidiPlayer midiPlayer;
 	
+	private static int instrument = 10;
+	
 	
 //--------------------------------INITIALISATION----------------------------------//	
 	
@@ -73,7 +88,18 @@ public class Life {
 	    mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    mainFrame.setSize(FRAME_WIDTH,FRAME_HEIGHT);
 	    mainFrame.setLocation(FRAME_START_X, FRAME_START_Y);
-	    mainFrame.setLayout(null);
+	    mainFrame.setLayout(mainLayout);
+
+	    
+	    
+	    // Initialisation of the main panel
+	    mainPanel = new JPanel();
+	    mainPanel.setSize(MAIN_PANEL_WIDTH, MAIN_PANEL_HEIGHT);
+	    mainPanel.setLocation(0, 0);
+	    mainPanel.setLayout(null);
+	    mainFrame.add(mainPanel);
+	    
+	    
 	    
 	    // Initilisation of the start button
 	    startButton.addActionListener(new ActionListener() {
@@ -128,7 +154,7 @@ public class Life {
 	    for(int x=0; x<DIM1; x++){
 	    	for(int y=0; y<DIM2; y++){
 		    	pane[x][y]=new OurPanel();
-		    	mainFrame.add(pane[x][y]);
+		    	mainPanel.add(pane[x][y]);
 		    	pane[x][y].setLocation(x*PANE_WIDTH, y*PANE_HEIGHT);
 		    	pane[x][y].setSize(PANE_WIDTH, PANE_WIDTH);
 		    	pane[x][y].setAlive(board[x][y]);
@@ -138,13 +164,14 @@ public class Life {
 		// Setting main frame visibility true after everything else is done
 	    // avoids bugs
 	    mainFrame.setVisible(true);
+	    mainPanel.setVisible(true);
 	    
 	    
 		// Initialisation of the input reader
 		reader = new BufferedReader(new InputStreamReader(System.in));
 		
 		// Initialisation of the midi player
-		midiPlayer = new MidiPlayer(7,80,timeBetweenSteps);
+		midiPlayer = new MidiPlayer(instrument,80,timeBetweenSteps);
 		midiPlayer.scale = new MidiScale("F","dur");
 	
 	}
