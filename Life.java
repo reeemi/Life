@@ -173,11 +173,8 @@ public class Life {
 		reader = new BufferedReader(new InputStreamReader(System.in));
 		
 		// Initialisation of the midi player
-<<<<<<< HEAD
 		midiPlayer = new MidiPlayer(instrument,80,timeBetweenSteps);
-=======
-		midiPlayer = new MidiPlayer(10,80,timeBetweenSteps);
->>>>>>> bfec6f1ebb09e26ae4fd8c7759d66a50c6d26698
+
 		midiPlayer.scale = new MidiScale("F","dur");
 	
 	}
