@@ -73,6 +73,8 @@ public class Life {
 	
 	// sound stuff
 	private static MidiPlayer midiPlayer;
+	private static int nAliveCells = 0;
+	private static int nAliveCellsLastRound = 0;
 	
 	private static int instrument = 10;
 	
@@ -171,7 +173,11 @@ public class Life {
 		reader = new BufferedReader(new InputStreamReader(System.in));
 		
 		// Initialisation of the midi player
+<<<<<<< HEAD
 		midiPlayer = new MidiPlayer(instrument,80,timeBetweenSteps);
+=======
+		midiPlayer = new MidiPlayer(10,80,timeBetweenSteps);
+>>>>>>> bfec6f1ebb09e26ae4fd8c7759d66a50c6d26698
 		midiPlayer.scale = new MidiScale("F","dur");
 	
 	}
@@ -232,12 +238,13 @@ public class Life {
 	public static void update(){
 		int width = DIM1;
 		int height = DIM2;
-		int nAliveCells = 0;
 		
 		boolean[][] newBoard = createEmptyBoard(width, height);
 	
 		
 		int c;
+		nAliveCellsLastRound = nAliveCells;
+		nAliveCells = 0;
 		for(int i = 0; i<width;i++){
 			for(int j = 0; j<height;j++){
 				
@@ -253,7 +260,7 @@ public class Life {
 				if(i <  (width-1) && board[i+1][j]) c++;
 				
 				//applying rules
-				
+
 				if (board[i][j]){
 					nAliveCells++;
 					if (c<2 || c>3) newBoard[i][j] = false;
@@ -269,10 +276,11 @@ public class Life {
 		board = newBoard;
 		
 		// Midi player stuff
-		int nPitch = nAliveCells+150;
+		int nPitch = nAliveCells; // total number of alive cells
+		int mPitch = Math.abs(nAliveCells - nAliveCellsLastRound); // use difference
 		if (nPitch>DIM1*DIM2) nPitch = DIM1*DIM2;
-		midiPlayer.playNormalizedWithScale(nPitch, DIM1*DIM2, false);
-		
+		midiPlayer.playIntWithScale(nPitch);
+		//midiPlayer.playMultipleNotesInInterval(new int[] {nPitch,mPitch});
 		// colour changing
 		
 		int r1 = (int)(Math.random()*20);

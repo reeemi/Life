@@ -77,16 +77,34 @@ public class MidiPlayer {
 		}
 		playWithScale(no);
 	}
+	
+	public void playIntWithScale(int n) {
+		int start = 20;
+		int end = 35; // Minus
+		
+		int no = start + (n % (scale.getLength() - end));
+		playWithScale(no);
+	}
 
 	public void playWithScale(int n) {
 		playSound(scale.getArray()[n]);
+	}
+	
+	public void playMultipleNotesInInterval(int[] notes) {
+		int saveDuration = duration;
+		duration = duration / notes.length;
+		for(int note : notes) {
+			System.out.println(note);
+			playIntWithScale(note);
+		}
+		duration = saveDuration;
 	}
 
 
 
 	public static void main(String[] args) {
 		try {
-			MidiPlayer a = new MidiPlayer(Integer.parseInt(args[0]),80,200);
+			MidiPlayer a = new MidiPlayer(8,80,200);
 			a.scale = new MidiScale();
 
 				/*
@@ -111,27 +129,18 @@ public class MidiPlayer {
 
 				a.scale.setScale("A", "moll");
 				System.out.println("A moll");
-				for(int i = 0; i < n; i++) {
-					a.playNormalizedWithScale(ran[i], 500, true);
-				}
+				a.playMultipleNotesInInterval(ran);
 
 				a.scale.setScale("F", "dur");
 				System.out.println("F dur");
-				for(int i = 0; i < n; i++) {
-					a.playNormalizedWithScale(ran[i], 500, true);
-				}
+				a.playMultipleNotesInInterval(ran);
 
 				a.scale.setScale("C", "dur");
 				System.out.println("C dur");
-				for(int i = 0; i < n; i++) {
-					a.playNormalizedWithScale(ran[i], 500, true);
-				}
-
+				a.playMultipleNotesInInterval(ran);
 				a.scale.setScale("G", "dur");
 				System.out.println("G dur");
-				for(int i = 00; i < n; i++) {
-					a.playNormalizedWithScale(ran[i], 500, true);
-				}
+				a.playMultipleNotesInInterval(ran);
 			a.close();
 		} catch (Exception e) {
 			e.printStackTrace();
