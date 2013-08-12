@@ -53,7 +53,7 @@ public class Life {
 	private static int TIME_SLIDER_X = 500;
 	private static int TIME_SLIDER_Y = 150;
 	
-	private static OurPanel[][] pane;
+	private static Cell[][] pane;
 	private static final int PANE_WIDTH = 5;
 	private static final int PANE_HEIGHT = 5;
 
@@ -77,6 +77,9 @@ public class Life {
 	private static int nAliveCellsLastRound = 0;
 	
 	private static int instrument = 10;
+	
+	//general
+	private static int steps = 0;
 	
 	
 //--------------------------------INITIALISATION----------------------------------//	
@@ -152,10 +155,10 @@ public class Life {
 	    
 	    
 	    // Initialisation of the panels that depict the cells
-	    pane = new OurPanel[DIM1][DIM2];
+	    pane = new Cell[DIM1][DIM2];
 	    for(int x=0; x<DIM1; x++){
 	    	for(int y=0; y<DIM2; y++){
-		    	pane[x][y]=new OurPanel();
+		    	pane[x][y]=new Cell(x, y);
 		    	mainPanel.add(pane[x][y]);
 		    	pane[x][y].setLocation(x*PANE_WIDTH, y*PANE_HEIGHT);
 		    	pane[x][y].setSize(PANE_WIDTH, PANE_WIDTH);
@@ -195,6 +198,11 @@ public class Life {
 		return rBoard;
 	}
 	
+//-----------------------------------GENERAL--------------------------------------//
+	
+	public static void flipSquareState(int i, int j){
+		board[i][j] = !board[i][j];
+	}
 
 //-----------------------------------DISPLAY--------------------------------------//
 	
@@ -216,11 +224,11 @@ public class Life {
 			System.out.println();	
 		}
 		else {
-			for(int j = 0; j<height;j++){
-				for(int i = 0; i<width;i++){
-					pane[j][i].setAlive(board[i][j]);
-					if (pane[j][i].isAlive()) pane[j][i].setAliveColour(aliveColour);
-					else pane[j][i].setDeadColour(deadColour);
+			for(int i = 0; i<width;i++){
+				for(int j = 0; j<height;j++){
+					pane[i][j].setAlive(board[i][j]);
+					if (pane[i][j].isAlive()) pane[i][j].setAliveColour(aliveColour);
+					else pane[i][j].setDeadColour(deadColour);
 				}
 				
 			}
@@ -270,9 +278,13 @@ public class Life {
 			
 			
 		}
+		
 		board = newBoard;
 		
 		// Midi player stuff
+		//if ((steps % 200) <=100) {midiPlayer.scale = new MidiScale("F", "dur"); System.out.println("F dur");}
+		//else midiPlayer.scale = new MidiScale("D", "moll"); {System.out.println("D moll");}
+		
 		int nPitch = nAliveCells; // total number of alive cells
 		int mPitch = Math.abs(nAliveCells - nAliveCellsLastRound); // use difference
 		if (nPitch>DIM1*DIM2) nPitch = DIM1*DIM2;
@@ -297,6 +309,12 @@ public class Life {
 		int newDeadGreen = (deadColour.getGreen()+r1) % 256;
 		int newDeadBlue = (deadColour.getBlue()+r2) % 256;
 		deadColour = new Color(newDeadRed, newDeadGreen, newDeadBlue);	*/
+		
+		// button settings
+		if (stopped) startButton.setText("Start"); else startButton.setText("Stop");
+		
+		//general
+		steps++;
 	}
 	
 //-----------------------------INPUT HANDLING-------------------------------------//
@@ -326,6 +344,10 @@ public class Life {
 				mainFrame.repaint();
 				update();
 				handleInput();
+			}
+			else{
+				display(false);
+				mainFrame.repaint();
 			}
 		}
 	}

@@ -46,7 +46,7 @@ public class MidiPlayer {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public void playSound(int note) {
 		try {
 			this.channel.noteOn( note, volume ); // C note
