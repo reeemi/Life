@@ -47,6 +47,12 @@ public class Life {
 	private static int RESET_BUTTON_X = 600;
 	private static int RESET_BUTTON_Y = 0;
 	
+	private static JButton resetEmptyButton = new JButton();
+	private static int RESET_EMPTY_BUTTON_WIDTH = 100;
+	private static int RESET_EMPTY_BUTTON_HEIGHT = 100;
+	private static int RESET_EMPTY_BUTTON_X = 600;
+	private static int RESET_EMPTY_BUTTON_Y = 300;
+	
 	private static JSlider timeSlider = new JSlider(JSlider.HORIZONTAL, 0,1000,500);
 	private static int TIME_SLIDER_WIDTH = 200;
 	private static int TIME_SLIDER_HEIGHT = 100;
@@ -136,6 +142,19 @@ public class Life {
 	    resetButton.setVisible(true);
 	    mainFrame.add(resetButton);
 	    
+	    // Initilisation of the empty reset button
+	    resetEmptyButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e)
+            {
+            	board = createEmptyBoard(DIM1,DIM2);
+            	display(false);
+            }
+	    });
+	    resetEmptyButton.setSize(RESET_EMPTY_BUTTON_WIDTH,RESET_EMPTY_BUTTON_HEIGHT);
+	    resetEmptyButton.setLocation(RESET_EMPTY_BUTTON_X,RESET_EMPTY_BUTTON_Y);
+	    resetEmptyButton.setText("Reset");
+	    resetEmptyButton.setVisible(true);
+	    mainFrame.add(resetEmptyButton);
 	    
 	    // Initialisation of the time slider
 	    timeSlider.addChangeListener(new ChangeListener() {
