@@ -63,12 +63,10 @@ public class Cell extends JPanel implements MouseListener {
 //-------------------------IMPLEMENTED MOUSELISTENER METHODS-----------------------//
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		Life.flipSquareState(this.x, this.y);
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		if (e.isMetaDown()) Life.flipSquareState(this.x, this.y);
 	}
 	@Override
 	public void mouseExited(MouseEvent e) {
@@ -77,8 +75,7 @@ public class Cell extends JPanel implements MouseListener {
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		Life.flipSquareState(this.x, this.y);
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
